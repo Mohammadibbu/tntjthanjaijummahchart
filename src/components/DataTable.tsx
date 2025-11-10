@@ -62,7 +62,7 @@ export const DataTable = ({ data, dayiNames, onChange }: DataTableProps) => {
                 {/* <td className="border border-gray-200 px-3 py-2">{row.phone}</td>
             <td className="border border-gray-200 px-3 py-2">{row.time}</td> */}
 
-                <td className="border border-gray-200 px-3 py-2">
+                <td className="border border-gray-200 px-3 py-2 whitespace-nowrap">
                   <CustomSelectWithModal
                     value={row.dai_name_contact || "-"}
                     options={dayiNames.map((dayi) => dayi.name)}
