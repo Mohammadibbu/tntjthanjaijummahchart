@@ -13,6 +13,7 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   const [tableData, setTableData] = useState<(TableRow | ImageRow)[]>([]);
+  const [ImageData, setImageData] = useState<(TableRow | ImageRow)[]>([]);
   const [dhayiNames, setDhayiNames] = useState<DhayiName[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -113,7 +114,7 @@ export const Dashboard = () => {
       if (Imagesnap.exists()) {
         const Images = Imagesnap.val();
 
-        setTableData((prev) => [...prev, Images]);
+        setImageData(Images);
       }
 
       if (dayiSnap.exists()) {
@@ -175,6 +176,7 @@ export const Dashboard = () => {
           tableData,
           selectedDate,
           tamilDate,
+          ImageData,
           headerText,
         })
       );
@@ -207,6 +209,7 @@ export const Dashboard = () => {
         tableData,
         selectedDate: tamilDate,
         headerText,
+        ImageData,
       },
     });
   };

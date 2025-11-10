@@ -69,10 +69,14 @@ export const Preview = () => {
   const location = useLocation();
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const { tableData = [], selectedDate } = (location.state as any) || {};
+  const {
+    tableData = [],
+    selectedDate,
+    ImageData,
+  } = (location.state as any) || {};
 
   // const [bgImage, setBgImage] = useState<string | null>(null);
-  const [footerImage, setFooterImage] = useState<string | null>(null);
+  // const [footerImage, setFooterImage] = useState<string | null>(null);
   const [tableTheme, setTableTheme] = useState<TableTheme>("classic");
   const [zoom, setZoom] = useState(100);
   const [isExporting, setIsExporting] = useState(false);
@@ -171,12 +175,9 @@ export const Preview = () => {
       toast.error("Export failed. Please try again.");
     } finally {
       setIsExporting(false);
+      console.log(ImageData);
     }
   };
-  const footerHeaderData = tableData.filter(
-    (item: any) => item.footer && item.header
-  );
-  console.log(footerHeaderData[0].footer);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 p-4 md:p-8">
@@ -308,7 +309,7 @@ export const Preview = () => {
                       className={`p-0 border ${TABLE_THEMES[tableTheme].border}`}
                     >
                       <img
-                        src={footerHeaderData[0]?.header}
+                        src={ImageData?.header}
                         alt="TNTJ Thanjai Heading"
                         className="w-full h-40  object-cover rounded-t-xl"
                       />
@@ -384,7 +385,7 @@ export const Preview = () => {
                   <tr>
                     <td colSpan={4}>
                       <img
-                        src={footerHeaderData[0]?.footer}
+                        src={ImageData?.footer}
                         alt="Footer"
                         className="w-full h-24 md:h-36 object-cover rounded-b-xl"
                       />
