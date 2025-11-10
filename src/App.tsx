@@ -9,6 +9,7 @@ import { LoginPage } from "./components/LoginPage";
 import { Dashboard } from "./components/Dashboard";
 import { Preview } from "./components/Preview";
 import { Toaster } from "sonner";
+import ManageDataPage from "./Pages/ManageDataPage";
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/manageData"
+              element={
+                <PrivateRoute>
+                  <ManageDataPage />
                 </PrivateRoute>
               }
             />

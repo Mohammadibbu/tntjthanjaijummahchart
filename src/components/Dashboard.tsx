@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Save, RotateCcw, Eye } from "lucide-react";
+import { LogOut, Save, RotateCcw, Eye, ArrowRight } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
-import { TableRow, DhayiName } from "../types";
+import { TableRow, DhayiName, ImageRow } from "../types";
 import { DataTable } from "./DataTable";
 import { db, ref, get, update } from "../../Firebase/firebase.config";
 
@@ -12,7 +12,7 @@ export const Dashboard = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const [tableData, setTableData] = useState<TableRow[]>([]);
+  const [tableData, setTableData] = useState<(TableRow | ImageRow)[]>([]);
   const [dhayiNames, setDhayiNames] = useState<DhayiName[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -88,9 +88,10 @@ export const Dashboard = () => {
         });
       }, 30000);
 
-      const [jummahSnap, dayiSnap] = await Promise.all([
-        get(ref(db, "JUMMAH_BRANCH/jummah_details")),
+      const [jummahSnap, dayiSnap, Imagesnap] = await Promise.all([
+        get(ref(db, "TNTJ_THANJAI_BRANCH/jummah_details")),
         get(ref(db, "DHAYINAMES")),
+        get(ref(db, "IMAGES")),
       ]);
 
       clearTimeout(timeout);
@@ -104,10 +105,15 @@ export const Dashboard = () => {
             branch: item.branch,
             phone: item.contact,
             time: item.time,
-            dai_name_contact: item.dai_name_contact || "",
+            dai_name_contact: "Nil",
           })
         );
         setTableData(tableArray);
+      }
+      if (Imagesnap.exists()) {
+        const Images = Imagesnap.val();
+
+        setTableData((prev) => [...prev, Images]);
       }
 
       if (dayiSnap.exists()) {
@@ -152,17 +158,17 @@ export const Dashboard = () => {
     }
 
     try {
-      const updatedData = tableData.map(
-        ({ s_no, branch, phone, time, dai_name_contact }) => ({
-          s_no,
-          branch,
-          contact: phone,
-          time,
-          dai_name_contact,
-        })
-      );
+      // const updatedData = tableData.map(
+      //   ({ s_no, branch, phone, time, dai_name_contact }) => ({
+      //     s_no,
+      //     branch,
+      //     contact: phone,
+      //     time,
+      //     dai_name_contact,
+      //   })
+      // );
 
-      await update(ref(db, "JUMMAH_BRANCH"), { jummah_details: updatedData });
+      // await update(ref(db, "JUMMAH_BRANCH"), { jummah_details: updatedData });
       sessionStorage.setItem(
         "dashboardData",
         JSON.stringify({
@@ -235,6 +241,13 @@ export const Dashboard = () => {
       <nav className="nav-bg border-b border-gray-200 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <button
+            className="bg-blue-200 text-blue-600 px-3 py-2 rounded-md text-md font-bold hover:bg-blue-100 inline-flex"
+            onClick={() => navigate("/manageData")}
+          >
+            <Eye className="mr-3" /> View Dhayikal List
+          </button>
+
+          <button
             onClick={logout}
             className="btn-secondary flex items-center gap-2"
           >
@@ -244,7 +257,7 @@ export const Dashboard = () => {
       </nav>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="sticky top-0 shadow-lg card mb-6 p-4">
+        <div className="sticky top-0 shadow-lg z-50 card mb-6 p-4">
           <div className="flex flex-wrap gap-3 mb-4 items-center">
             {/* Save Button */}
             <button
@@ -263,7 +276,16 @@ export const Dashboard = () => {
               <RotateCcw className="w-4 h-4" />
               <span className="hidden sm:inline">Reset to Default</span>
             </button>
-
+            {/* Preview Button */}
+            <div className="flex gap-2 ml-auto">
+              <button
+                onClick={handlePreview}
+                className="btn-primary flex items-center gap-2"
+              >
+                <Eye className="w-4 h-4" />
+                <span className="hidden sm:inline">Preview</span>
+              </button>
+            </div>
             {/* Date Picker */}
             <div className="flex space-x-2 items-center">
               <label className="hidden sm:inline font-semibold">
@@ -281,26 +303,14 @@ export const Dashboard = () => {
                 <span className="text-sm text-gray-700">{tamilDate}</span>
               )}
             </div>
-
-            {/* Preview Button */}
-            <div className="flex gap-2 ml-auto">
-              <button
-                onClick={handlePreview}
-                className="btn-primary flex items-center gap-2"
-              >
-                <Eye className="w-4 h-4" />
-                <span className="hidden sm:inline">Preview</span>
-              </button>
-            </div>
           </div>
         </div>
 
         <div className="card" id="export-content">
           <DataTable
-            data={tableData}
+            data={tableData.filter((row): row is TableRow => "id" in row)}
             dayiNames={dhayiNames}
             onChange={setTableData}
-            onDelete={() => {}}
           />
         </div>
       </div>

@@ -31,5 +31,25 @@ export interface AppSettings {
   contact_info: string;
   updated_at: string;
 }
+export interface DhayiName {
+  id: string;
+  name: string;
+  sort_order: number;
+  created_at: string;
+}
+
+export interface TableRow {
+  id: string;
+  sno?: string;
+  branch: string;
+  phone: string;
+  time: string;
+  dai_name_contact: string;
+}
+
+export interface ImageRow {
+  FooterImage?: Base64URLString;
+  HeaderImage?: Base64URLString;
+}
 
 export type Theme = "light" | "dark" | "tamil";

@@ -4,7 +4,6 @@ import { Download, Trash2, ArrowLeft, Check, Palette } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "sonner";
-import TNTJTHANJAIHEADING from "./assets/img/TNTJTHANJAIHEADING.jpg";
 
 type TableTheme = "classic" | "ocean" | "sunset" | "forest";
 
@@ -174,6 +173,10 @@ export const Preview = () => {
       setIsExporting(false);
     }
   };
+  const footerHeaderData = tableData.filter(
+    (item: any) => item.footer && item.header
+  );
+  console.log(footerHeaderData[0].footer);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 p-4 md:p-8">
@@ -258,23 +261,6 @@ export const Preview = () => {
                 ))}
               </select>
             </div>
-
-            {/* Upload Fields */}
-            {/* <UploadField
-              label="Background Image"
-              image={bgImage}
-              setImage={setBgImage}
-              successMsg="Background image uploaded!"
-              removeMsg="Background image removed"
-            /> */}
-
-            <UploadField
-              label="Footer Image"
-              image={footerImage}
-              setImage={setFooterImage}
-              successMsg="Footer image uploaded!"
-              removeMsg="Footer image removed"
-            />
           </div>
         </div>
 
@@ -322,9 +308,9 @@ export const Preview = () => {
                       className={`p-0 border ${TABLE_THEMES[tableTheme].border}`}
                     >
                       <img
-                        src={TNTJTHANJAIHEADING}
+                        src={footerHeaderData[0]?.header}
                         alt="TNTJ Thanjai Heading"
-                        className="w-full h-auto object-cover rounded-t-xl"
+                        className="w-full h-40  object-cover rounded-t-xl"
                       />
                     </td>
                   </tr>
@@ -388,21 +374,22 @@ export const Preview = () => {
                       <td
                         className={`py-3 px-4 border-2 ${TABLE_THEMES[tableTheme].border} text-red-700 font-semibold text-center align-middle whitespace-nowrap`}
                       >
-                        {row.dai_name_contact}
+                        {row.dai_name_contact === "Nil"
+                          ? "-"
+                          : row.dai_name_contact}
                       </td>
                     </tr>
                   ))}
-                  {footerImage && (
-                    <tr>
-                      <td colSpan={4}>
-                        <img
-                          src={footerImage}
-                          alt="Footer"
-                          className="w-full h-24 md:h-36 object-cover rounded-b-xl"
-                        />
-                      </td>
-                    </tr>
-                  )}
+
+                  <tr>
+                    <td colSpan={4}>
+                      <img
+                        src={footerHeaderData[0]?.footer}
+                        alt="Footer"
+                        className="w-full h-24 md:h-36 object-cover rounded-b-xl"
+                      />
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -414,52 +401,52 @@ export const Preview = () => {
 };
 
 /* ✅ Reusable UploadField Component */
-const UploadField = ({
-  label,
-  image,
-  setImage,
-  successMsg,
-  removeMsg,
-}: {
-  label: string;
-  image: string | null;
-  setImage: (val: string | null) => void;
-  successMsg: string;
-  removeMsg: string;
-}) => (
-  <div className="space-y-3">
-    <label className="text-sm font-semibold text-slate-700 uppercase">
-      {label}
-    </label>
-    <div className="flex items-center gap-3">
-      <label className="flex-1 cursor-pointer">
-        <div className="border-2 border-dashed border-slate-300 rounded-xl px-4 py-3 bg-slate-50 text-slate-600 text-sm text-center hover:border-primary hover:bg-slate-100 transition-all">
-          {image ? "✓ Change Image" : "📤 Upload Image"}
-        </div>
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) {
-              setImage(URL.createObjectURL(file));
-              toast.success(successMsg);
-            }
-          }}
-        />
-      </label>
-      {image && (
-        <button
-          onClick={() => {
-            setImage(null);
-            toast.info(removeMsg);
-          }}
-          className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 shadow-md"
-        >
-          <Trash2 className="w-5 h-5" />
-        </button>
-      )}
-    </div>
-  </div>
-);
+// const UploadField = ({
+//   label,
+//   image,
+//   setImage,
+//   successMsg,
+//   removeMsg,
+// }: {
+//   label: string;
+//   image: string | null;
+//   setImage: (val: string | null) => void;
+//   successMsg: string;
+//   removeMsg: string;
+// }) => (
+//   <div className="space-y-3">
+//     <label className="text-sm font-semibold text-slate-700 uppercase">
+//       {label}
+//     </label>
+//     <div className="flex items-center gap-3">
+//       <label className="flex-1 cursor-pointer">
+//         <div className="border-2 border-dashed border-slate-300 rounded-xl px-4 py-3 bg-slate-50 text-slate-600 text-sm text-center hover:border-primary hover:bg-slate-100 transition-all">
+//           {image ? "✓ Change Image" : "📤 Upload Image"}
+//         </div>
+//         <input
+//           type="file"
+//           accept="image/*"
+//           className="hidden"
+//           onChange={(e) => {
+//             const file = e.target.files?.[0];
+//             if (file) {
+//               setImage(URL.createObjectURL(file));
+//               toast.success(successMsg);
+//             }
+//           }}
+//         />
+//       </label>
+//       {image && (
+//         <button
+//           onClick={() => {
+//             setImage(null);
+//             toast.info(removeMsg);
+//           }}
+//           className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 shadow-md"
+//         >
+//           <Trash2 className="w-5 h-5" />
+//         </button>
+//       )}
+//     </div>
+//   </div>
+// );
