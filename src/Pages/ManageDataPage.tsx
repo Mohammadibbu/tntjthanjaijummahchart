@@ -13,7 +13,7 @@ const ManageDataPage = () => {
           className="bg-white text-blue-600 px-3 py-2 rounded-md text-md font-bold hover:bg-blue-100 inline-flex"
           onClick={() => navigate("/")}
         >
-          <ArrowLeft className="mr-3" /> back to Workspace
+          <ArrowLeft className="mr-3" /> back
         </button>
       </header>
 

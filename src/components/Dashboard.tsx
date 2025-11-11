@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Save, RotateCcw, Eye, ArrowRight } from "lucide-react";
+import {
+  LogOut,
+  Save,
+  RotateCcw,
+  Eye,
+  ArrowRight,
+  Menu,
+  X,
+} from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
@@ -20,7 +28,7 @@ export const Dashboard = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tamilDate, setTamilDate] = useState("");
-
+  const [isOpen, setIsOpen] = useState(false);
   const [headerText, setHeaderText] = useState("TNTJ தென்சென்னை மாவட்டம்");
   const [sessionTime, setSessionTime] = useState(30 * 60); // 30 minutes
 
@@ -241,22 +249,82 @@ export const Dashboard = () => {
   // 🔹 Main dashboard UI
   return (
     <div className="min-h-screen dashboard-bg">
-      <nav className="nav-bg border-b border-gray-200 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <button
-            className="bg-blue-200 text-blue-600 px-3 py-2 rounded-md text-md font-bold hover:bg-blue-100 inline-flex"
-            onClick={() => navigate("/manageData")}
+      <nav className="nav-bg border-b border-gray-200 shadow-sm bg-white">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          {/* Left Section: Logo + Title */}
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => navigate("/")}
           >
-            <Eye className="mr-3" /> View Dhayikal List
-          </button>
+            <img
+              src="/Images/tntjlogo.jpeg"
+              alt="TNTJ Logo"
+              className="w-10 h-10 object-contain rounded-full border border-gray-200"
+            />
+            <span className="text-lg sm:text-xl font-bold text-slate-800 truncate">
+              TNTJ Thanjai South
+            </span>
+          </div>
 
-          <button
-            onClick={logout}
-            className="btn-secondary flex items-center gap-2"
-          >
-            <LogOut className="w-4 h-4" /> Logout
-          </button>
+          {/* Right Section */}
+          <div className="flex items-center">
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex space-x-5">
+              <button
+                className="bg-blue-200 text-blue-600 px-3 py-2 rounded-md text-sm sm:text-md font-semibold hover:bg-blue-100 inline-flex items-center"
+                onClick={() => navigate("/manageData")}
+              >
+                <Eye className="mr-2 w-4 h-4" />
+                <span className="hidden sm:inline">View Dhayikal List</span>
+                <span className="sm:hidden">View</span>
+              </button>
+              <button
+                onClick={logout}
+                className="btn-secondary flex items-center gap-2 text-sm sm:text-base"
+              >
+                <LogOut className="w-4 h-4" /> Logout
+              </button>
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                {isOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
         </div>
+
+        {/* Mobile Menu Inline */}
+        {isOpen && (
+          <div className="md:hidden px-4 pb-3 space-y-2 bg-white border-t border-gray-200">
+            <button
+              className="w-full text-left bg-blue-200 text-blue-600 px-3 py-2 rounded-md text-sm font-semibold hover:bg-blue-100 flex items-center"
+              onClick={() => {
+                navigate("/manageData");
+                setIsOpen(false);
+              }}
+            >
+              <Eye className="mr-2 w-4 h-4" /> View Dhayikal List
+            </button>
+            <button
+              onClick={() => {
+                logout();
+                setIsOpen(false);
+              }}
+              className="w-full text-left btn-secondary flex items-center gap-2 text-sm"
+            >
+              <LogOut className="w-4 h-4" /> Logout
+            </button>
+          </div>
+        )}
       </nav>
 
       <div className="container mx-auto px-4 py-8">

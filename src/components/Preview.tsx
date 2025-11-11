@@ -1,6 +1,16 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
-import { Download, Trash2, ArrowLeft, Check, Palette } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import {
+  Download,
+  Trash2,
+  ChevronDown,
+  ArrowLeft,
+  Check,
+  Palette,
+  FileText,
+  Image,
+  FileImage,
+} from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "sonner";
@@ -69,6 +79,22 @@ export const Preview = () => {
   const location = useLocation();
   const previewRef = useRef<HTMLDivElement>(null);
 
+  // Inside your component:
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  // 👇 Close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowFormats(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   const {
     tableData = [],
     selectedDate,
@@ -81,7 +107,7 @@ export const Preview = () => {
   const [zoom, setZoom] = useState(100);
   const [isExporting, setIsExporting] = useState(false);
   const [exportSuccess, setExportSuccess] = useState<string | null>(null);
-
+  const [showFormats, setShowFormats] = useState(false);
   const handleThemeChange = (theme: TableTheme) => {
     setTableTheme(theme);
     toast.success(`Table theme changed to ${TABLE_THEMES[theme].name}`);
@@ -107,7 +133,7 @@ export const Preview = () => {
       const actualWidth = 1000;
 
       const actualHeight = 3500;
-      console.log(actualWidth, actualHeight);
+      // console.log(actualWidth, actualHeight);
 
       // Temporarily move off-screen to prevent scroll interference
       Object.assign(element.style, {
@@ -175,7 +201,6 @@ export const Preview = () => {
       toast.error("Export failed. Please try again.");
     } finally {
       setIsExporting(false);
-      console.log(ImageData);
     }
   };
 
@@ -196,54 +221,87 @@ export const Preview = () => {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      {/* ✅ Fixed Top Navigation Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-slate-200 px-3 sm:px-6 py-3 flex flex-wrap sm:flex-nowrap justify-between items-center gap-3">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all text-sm sm:text-base"
+        >
+          <ArrowLeft className="w-4 sm:w-5 h-4 sm:h-5" />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+
+        {/* Title */}
+        <h1 className="flex-1 text-center sm:text-left text-base sm:text-lg md:text-xl font-bold text-slate-800 truncate">
+          Design Customization
+        </h1>
+
+        {/* Download Dropdown */}
+        <div className="relative">
           <button
-            onClick={() => navigate(-1)}
-            className="group flex items-center gap-2.5 px-4 py-2.5 bg-white text-slate-700 font-semibold rounded-xl shadow-md hover:shadow-lg hover:bg-slate-50 transition-all"
+            onClick={() => setShowFormats((prev) => !prev)}
+            className="flex items-center justify-center gap-2 w-full sm:w-auto px-3 sm:px-4 py-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-            <span>Back to Editor</span>
-          </button>
-        </div>
-
-        <div className="fixed bottom-0 left-0 flex justify-between lg:px-44 w-full z-50 bg-white p-5 shadow-2xl">
-          {(["pdf", "png", "jpg"] as const).map((fmt) => (
-            <button
-              key={fmt}
-              onClick={() => handleExport(fmt)}
-              disabled={isExporting}
-              className={`flex items-center justify-center gap-2 px-3 sm:px-4 md:px-6 py-2 md:py-2.5 rounded-xl font-semibold shadow-md text-sm md:text-base transition-all ${
-                exportSuccess === fmt.toUpperCase()
-                  ? "bg-green-600 text-white scale-105"
-                  : "bg-gray-800 text-slate-100 hover:bg-slate-600"
+            <Download className="w-4 sm:w-5 h-4 sm:h-5" />
+            <span className="hidden sm:inline">Download</span>
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-300 ${
+                showFormats ? "rotate-180" : ""
               }`}
-            >
-              {exportSuccess === fmt.toUpperCase() ? (
-                <>
-                  <Check className="w-5 h-5" />
-                  <span>Downloaded!</span>
-                </>
-              ) : (
-                <>
-                  <Download className="w-5 h-5" />
-                  <span>{fmt.toUpperCase()}</span>
-                </>
-              )}
-            </button>
-          ))}
-        </div>
+            />
+          </button>
 
-        {/* Design Customization */}
+          {/* Dropdown menu */}
+          {showFormats && (
+            <div
+              ref={dropdownRef}
+              className="absolute right-0 mt-2 w-36 sm:w-40 rounded-lg shadow-xl bg-white border border-slate-200 overflow-hidden animate-fadeIn"
+            >
+              {[
+                {
+                  fmt: "pdf",
+                  label: "PDF",
+                  icon: <FileText className="w-4 h-4 text-red-500" />,
+                },
+                {
+                  fmt: "png",
+                  label: "PNG",
+                  icon: <Image className="w-4 h-4 text-blue-500" />,
+                },
+                {
+                  fmt: "jpg",
+                  label: "JPG",
+                  icon: <FileImage className="w-4 h-4 text-yellow-500" />,
+                },
+              ].map(({ fmt, label, icon }) => (
+                <button
+                  key={fmt}
+                  onClick={() => {
+                    handleExport(fmt as "pdf" | "png" | "jpg");
+                    setShowFormats(false);
+                  }}
+                  className="w-full flex items-center gap-2 px-4 py-2 text-left text-slate-700 hover:bg-blue-50 transition-colors text-sm sm:text-base"
+                >
+                  {icon}
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ✅ Content below Top Bar */}
+      <div className="mt-24 max-w-7xl mx-auto space-y-6">
+        {/* 🎨 Design Customization Section */}
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 md:p-8">
           <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-            <Palette className="w-6 h-6 text-primary" />
+            <Palette className="w-6 h-6 text-blue-600" />
             Customize Design
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Table Theme */}
             <div className="space-y-3">
               <label className="text-sm font-semibold text-slate-700 uppercase">
                 Table Theme
@@ -253,7 +311,7 @@ export const Preview = () => {
                 onChange={(e) =>
                   handleThemeChange(e.target.value as TableTheme)
                 }
-                className="w-full px-4 py-2 border-2 border-slate-300 rounded-xl bg-white text-slate-700 font-semibold text-sm md:text-base transition-all focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full px-4 py-2 border-2 border-slate-300 rounded-xl bg-white text-slate-700 font-semibold focus:border-blue-500 focus:ring-2 focus:ring-blue-300 focus:outline-none transition-all"
               >
                 {(Object.keys(TABLE_THEMES) as TableTheme[]).map((theme) => (
                   <option key={theme} value={theme}>
@@ -264,7 +322,6 @@ export const Preview = () => {
             </div>
           </div>
         </div>
-
         {/* Live Preview */}
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 md:p-8">
           <h2 className="text-2xl font-bold text-slate-800 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -382,15 +439,17 @@ export const Preview = () => {
                     </tr>
                   ))}
 
-                  <tr>
-                    <td colSpan={4}>
-                      <img
-                        src={ImageData?.footer}
-                        alt="Footer"
-                        className="w-full h-24 md:h-36 object-cover rounded-b-xl"
-                      />
-                    </td>
-                  </tr>
+                  {ImageData?.footer && (
+                    <tr>
+                      <td colSpan={4}>
+                        <img
+                          src={ImageData?.footer}
+                          alt="Footer"
+                          className="w-full h-24 md:h-36 object-cover rounded-b-xl"
+                        />
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
