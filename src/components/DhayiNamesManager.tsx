@@ -120,13 +120,13 @@ export default function DhayiNamesManager() {
               placeholder="Search Dhayi..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none text-sm"
             />
           </div>
 
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition text-sm"
+            className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition text-sm"
             disabled={loading}
           >
             <Plus size={18} />
@@ -138,7 +138,7 @@ export default function DhayiNamesManager() {
       {/* Table Section */}
       {loading && dhayiNames.length === 0 ? (
         <div className="flex justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
         </div>
       ) : filteredDhayiNames.length === 0 ? (
         <p className="text-center text-gray-500 py-8">
@@ -180,7 +180,7 @@ export default function DhayiNamesManager() {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => handleEdit(dhayi)}
-                          className="text-blue-600 hover:text-blue-800 p-1.5 rounded hover:bg-blue-50"
+                          className="text-green-600 hover:text-green-800 p-1.5 rounded hover:bg-green-50"
                           disabled={loading}
                         >
                           <Pencil size={16} />
@@ -233,7 +233,7 @@ export default function DhayiNamesManager() {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none"
                   placeholder="Enter Dhayi name"
                   disabled={loading}
                 />
@@ -250,7 +250,7 @@ export default function DhayiNamesManager() {
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition text-sm disabled:bg-gray-400"
+                  className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition text-sm disabled:bg-gray-400"
                   disabled={loading}
                 >
                   {loading ? "Saving..." : editingId ? "Update" : "Add"}

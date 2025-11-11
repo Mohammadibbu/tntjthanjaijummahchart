@@ -34,12 +34,17 @@ export const LoginPage = ({ onLoginSuccess }: LoginPageProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 px-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-              <LogIn className="w-8 h-8 text-white" />
+            <div className="w-28 h-28 bg-green-600 rounded-full flex items-center justify-center">
+              {/* <LogIn className="w-8 h-8 text-white" /> */}
+              <img
+                src="/Images/tntjlogo.jpeg"
+                alt="logo"
+                className="w-full h-full"
+              />
             </div>
           </div>
 
@@ -60,7 +65,7 @@ export const LoginPage = ({ onLoginSuccess }: LoginPageProps) => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
                 placeholder="Enter your username"
                 required
               />
@@ -78,7 +83,7 @@ export const LoginPage = ({ onLoginSuccess }: LoginPageProps) => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
                 placeholder="Enter your password"
                 required
               />
@@ -90,7 +95,7 @@ export const LoginPage = ({ onLoginSuccess }: LoginPageProps) => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
               />
               <label
                 htmlFor="remember"
@@ -109,7 +114,7 @@ export const LoginPage = ({ onLoginSuccess }: LoginPageProps) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>

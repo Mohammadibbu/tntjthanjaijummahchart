@@ -42,13 +42,14 @@ const TABLE_THEMES: Record<
   },
   ocean: {
     name: "Ocean",
-    evenBg: "bg-blue-50",
-    oddBg: "bg-blue-100",
-    color: "bg-blue-100",
-    header: "bg-blue-600 text-white",
-    subheading: "bg-blue-200 text-blue-800",
-    border: "border-blue-400",
-    tablebg_outset: "bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700",
+    evenBg: "bg-green-50",
+    oddBg: "bg-green-100",
+    color: "bg-green-100",
+    header: "bg-green-600 text-white",
+    subheading: "bg-green-200 text-green-800",
+    border: "border-green-400",
+    tablebg_outset:
+      "bg-gradient-to-r from-green-900 via-green-800 to-green-700",
   },
   sunset: {
     name: "Sunset",
@@ -241,7 +242,7 @@ export const Preview = () => {
         <div className="relative">
           <button
             onClick={() => setShowFormats((prev) => !prev)}
-            className="flex items-center justify-center gap-2 w-full sm:w-auto px-3 sm:px-4 py-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all text-sm sm:text-base"
+            className="flex items-center justify-center gap-2 w-full sm:w-auto px-3 sm:px-4 py-2 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-all text-sm sm:text-base"
           >
             <Download className="w-4 sm:w-5 h-4 sm:h-5" />
             <span className="hidden sm:inline">Download</span>
@@ -267,7 +268,7 @@ export const Preview = () => {
                 {
                   fmt: "png",
                   label: "PNG",
-                  icon: <Image className="w-4 h-4 text-blue-500" />,
+                  icon: <Image className="w-4 h-4 text-green-500" />,
                 },
                 {
                   fmt: "jpg",
@@ -281,7 +282,7 @@ export const Preview = () => {
                     handleExport(fmt as "pdf" | "png" | "jpg");
                     setShowFormats(false);
                   }}
-                  className="w-full flex items-center gap-2 px-4 py-2 text-left text-slate-700 hover:bg-blue-50 transition-colors text-sm sm:text-base"
+                  className="w-full flex items-center gap-2 px-4 py-2 text-left text-slate-700 hover:bg-green-50 transition-colors text-sm sm:text-base"
                 >
                   {icon}
                   <span>{label}</span>
@@ -297,7 +298,7 @@ export const Preview = () => {
         {/* 🎨 Design Customization Section */}
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 md:p-8">
           <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-            <Palette className="w-6 h-6 text-blue-600" />
+            <Palette className="w-6 h-6 text-green-600" />
             Customize Design
           </h2>
 
@@ -311,7 +312,7 @@ export const Preview = () => {
                 onChange={(e) =>
                   handleThemeChange(e.target.value as TableTheme)
                 }
-                className="w-full px-4 py-2 border-2 border-slate-300 rounded-xl bg-white text-slate-700 font-semibold focus:border-blue-500 focus:ring-2 focus:ring-blue-300 focus:outline-none transition-all"
+                className="w-full px-4 py-2 border-2 border-slate-300 rounded-xl bg-white text-slate-700 font-semibold focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition-all"
               >
                 {(Object.keys(TABLE_THEMES) as TableTheme[]).map((theme) => (
                   <option key={theme} value={theme}>
@@ -337,7 +338,7 @@ export const Preview = () => {
                 step="5"
                 value={zoom}
                 onChange={(e) => setZoom(Number(e.target.value))}
-                className="w-32 accent-blue-600"
+                className="w-32 accent-green-600"
               />
               <span className="font-semibold text-slate-700 w-12 text-right">
                 {zoom}%

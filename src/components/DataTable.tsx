@@ -47,7 +47,7 @@ export const DataTable = ({ data, dayiNames, onChange }: DataTableProps) => {
             {data.map((row) => (
               <tr
                 key={row.id}
-                className="even:bg-gray-50 hover:bg-blue-50 transition-colors duration-150"
+                className="even:bg-gray-50 hover:bg-green-50 transition-colors duration-150"
               >
                 <td className="border border-gray-200 px-2 sm:px-4 py-2 text-center font-medium text-gray-700">
                   {row.s_no}

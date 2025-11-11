@@ -178,7 +178,7 @@ export default function ImageManager() {
 
         <button
           onClick={() => inputRef.current?.click()}
-          className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400"
+          className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition disabled:bg-gray-400"
           disabled={uploading}
         >
           {uploading ? (
@@ -205,7 +205,7 @@ export default function ImageManager() {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
         </div>
       </div>
     );

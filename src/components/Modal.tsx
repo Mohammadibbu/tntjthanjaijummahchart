@@ -66,7 +66,7 @@ const Modal = ({
           <div className="mb-2">
             <input
               type="text"
-              className="w-full p-2 border border-blue-300 rounded-md text-sm mb-2"
+              className="w-full p-2 border border-green-300 rounded-md text-sm mb-2"
               placeholder="Search..."
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -76,7 +76,7 @@ const Modal = ({
             <button
               key={"nil"}
               className={`block w-full text-left py-1 px-2 mb-2 text-sm hover:bg-gray-100 rounded ${
-                selected === "Nil" ? "bg-blue-100" : ""
+                selected === "Nil" ? "bg-green-100" : ""
               }`}
               onClick={() => onSelect("Nil")}
             >
@@ -88,7 +88,7 @@ const Modal = ({
               <button
                 key={option}
                 className={`block w-full text-left py-1 px-2 mb-2 text-sm hover:bg-gray-100 rounded ${
-                  selected === option ? "border-2 border-blue-700" : ""
+                  selected === option ? "border-2 border-green-700" : ""
                 } ${
                   disabledOptions.includes(option)
                     ? "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -100,7 +100,7 @@ const Modal = ({
                 disabled={disabledOptions.includes(option)}
               >
                 {disabledOptions.includes(option) && (
-                  <span className="text-blue-600 mr-3">✔</span>
+                  <span className="text-green-600 mr-3">✔</span>
                 )}
                 {option}
               </button>

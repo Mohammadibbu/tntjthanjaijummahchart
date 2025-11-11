@@ -271,7 +271,7 @@ export const Dashboard = () => {
             {/* Desktop Buttons */}
             <div className="hidden md:flex space-x-5">
               <button
-                className="bg-blue-200 text-blue-600 px-3 py-2 rounded-md text-sm sm:text-md font-semibold hover:bg-blue-100 inline-flex items-center"
+                className="bg-green-200 text-green-600 px-3 py-2 rounded-md text-sm sm:text-md font-semibold hover:bg-green-100 inline-flex items-center"
                 onClick={() => navigate("/manageData")}
               >
                 <Eye className="mr-2 w-4 h-4" />
@@ -290,7 +290,7 @@ export const Dashboard = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
               >
                 {isOpen ? (
                   <X className="w-6 h-6" />
@@ -306,7 +306,7 @@ export const Dashboard = () => {
         {isOpen && (
           <div className="md:hidden px-4 pb-3 space-y-2 bg-white border-t border-gray-200">
             <button
-              className="w-full text-left bg-blue-200 text-blue-600 px-3 py-2 rounded-md text-sm font-semibold hover:bg-blue-100 flex items-center"
+              className="w-full text-left bg-green-200 text-green-600 px-3 py-2 rounded-md text-sm font-semibold hover:bg-green-100 flex items-center"
               onClick={() => {
                 navigate("/manageData");
                 setIsOpen(false);
@@ -333,7 +333,7 @@ export const Dashboard = () => {
             {/* Save Button */}
             <button
               onClick={handleSave}
-              className="btn-primary flex items-center gap-2"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               <span className="hidden sm:inline">Save Changes</span>
@@ -351,7 +351,7 @@ export const Dashboard = () => {
             <div className="flex gap-2 ml-auto">
               <button
                 onClick={handlePreview}
-                className="btn-primary flex items-center gap-2"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
               >
                 <Eye className="w-4 h-4" />
                 <span className="hidden sm:inline">Preview</span>
